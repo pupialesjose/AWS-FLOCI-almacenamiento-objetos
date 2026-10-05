@@ -49,7 +49,23 @@ $env:AWS_DEFAULT_REGION = "us-east-1"
 
 ### 3. Crear el script
 
-Crea el archivo `crear-bucket.ps1` en la carpeta del proyecto con el comando para crear el bucket.
+Crea el archivo `crear-bucket.ps1` en la carpeta del proyecto con el siguiente contenido:
+
+```powershell
+Write-Host "Creando bucket..."
+aws s3 mb s3://mi-primer-bucket
+
+Write-Host "`nBuckets disponibles:"
+aws s3 ls
+
+Read-Host "`nPresiona Enter para salir"
+```
+
+El script hace tres cosas:
+
+1. Crea el bucket `mi-primer-bucket` con `aws s3 mb` (*make bucket*).
+2. Lista los buckets disponibles con `aws s3 ls`.
+3. Pausa la ejecución hasta que presiones Enter, para que puedas leer la salida.
 
 ### 4. Ejecutar el script
 
@@ -59,13 +75,13 @@ Crea el archivo `crear-bucket.ps1` en la carpeta del proyecto con el comando par
 
 ## Verificación
 
-Lista los buckets para confirmar que se creó:
+El script ya lista los buckets al terminar, pero también puedes confirmarlo manualmente:
 
 ```powershell
 aws s3 ls
 ```
 
-Deberías ver el bucket creado en la salida.
+Deberías ver `mi-primer-bucket` en la salida, con la fecha y hora de creación.
 
 ## Solución de problemas
 
@@ -73,4 +89,5 @@ Deberías ver el bucket creado en la salida.
 |---|---|---|
 | `Connection refused` o no conecta | floci no está corriendo | Ejecuta `floci start` |
 | El bucket aparece en AWS real o pide credenciales válidas | Variables de entorno no definidas en esta sesión | Repite el paso 2 |
+| `BucketAlreadyOwnedByYou` | El bucket ya fue creado en una ejecución anterior | Es normal; el bucket ya existe. Para repetir la práctica, elimínalo con `aws s3 rb s3://mi-primer-bucket` |
 | `.\crear-bucket.ps1 cannot be loaded` | Política de ejecución de PowerShell | `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass` |
